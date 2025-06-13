@@ -24,11 +24,11 @@ volatile float totalMileageKm = 0.0;
 
 void IRAM_ATTR hallSensorISR() 
 {
-  currentTime = micros();
+  currentTime = millis();
   rotationTime = currentTime - lastHallTriggerTime;
-  currentSpeedKmh = VAL_1 / (float)(rotationTime / 1000);
+  currentSpeedKmh = VAL_1 / (float)rotationTime;
   lastHallTriggerTime = currentTime;
-  totalMileageKm += WHEEL_CIRCUMFERENCE_M * 0.001f;
+  totalMileageKm += WHEEL_CIRCUMFERENCE_M;
 }
 
 void setup() 
@@ -61,12 +61,12 @@ void loop()
   display.clearDisplay();
   display.setTextSize(3);
   display.setTextColor(SH110X_WHITE);
-  display.setCursor(10, 12);
+  display.setCursor(30, 12);
   char speedBuffer[10];
   char mileageBuffer[12];
   noInterrupts();
   dtostrf(currentSpeedKmh, 4, 1, speedBuffer);
-  dtostrf(totalMileageKm, 5, 2, mileageBuffer);
+  dtostrf(totalMileageKm * 0.001f, 5, 2, mileageBuffer);
   interrupts();
   display.print(speedBuffer); 
   display.setTextSize(1);
