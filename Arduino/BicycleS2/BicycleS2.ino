@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
-#include <WiFi.h>
+//#include <WiFi.h>
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
@@ -20,25 +20,22 @@ volatile unsigned long lastHallTriggerTime = 0;
 volatile unsigned long currentTime = 0;
 volatile unsigned long rotationTime = 0;
 volatile float currentSpeedKmh = 0.0;
-volatile float totalMileageM = 0.0;
+volatile float totalMileageKm = 0.0;
 
 void IRAM_ATTR hallSensorISR() 
 {
   currentTime = millis();
   rotationTime = currentTime - lastHallTriggerTime;
-  if (rotationTime > 80)
-  {
-    currentSpeedKmh = VAL_1 / (float)rotationTime;
-    lastHallTriggerTime = currentTime;
-    totalMileageM += WHEEL_CIRCUMFERENCE_M;
-  }
+  currentSpeedKmh = VAL_1 / (float)rotationTime;
+  lastHallTriggerTime = currentTime;
+  totalMileageKm += WHEEL_CIRCUMFERENCE_M;
 }
 
 void setup() 
 {
   //Serial.begin(115200);
-  WiFi.mode(WIFI_OFF);
-  btStop();
+  //WiFi.mode(WIFI_OFF);
+  //btStop();
   Wire.begin(I2C_SDA, I2C_SCL);
   if (!display.begin(0x3C, true)) 
   {
@@ -69,7 +66,7 @@ void loop()
   char mileageBuffer[12];
   noInterrupts();
   dtostrf(currentSpeedKmh, 4, 1, speedBuffer);
-  dtostrf(totalMileageM * 0.001f, 5, 2, mileageBuffer);
+  dtostrf(totalMileageKm * 0.001f, 5, 2, mileageBuffer);
   interrupts();
   display.print(speedBuffer); 
   display.setTextSize(1);
