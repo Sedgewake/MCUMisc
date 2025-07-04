@@ -14,8 +14,8 @@ Adafruit_SH1106G display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const int HALL_SENSOR_PIN = 3;
 
-const float VAL_1 = 8029.8f;
-const float WHEEL_CIRCUMFERENCE_M = 2.2305f;
+const float VAL_1 = 7948.8f;
+const float WHEEL_CIRCUMFERENCE_M = 2.208f;
 volatile unsigned long lastHallTriggerTime = 0;
 volatile unsigned long currentTime = 0;
 volatile unsigned long rotationTime = 0;
