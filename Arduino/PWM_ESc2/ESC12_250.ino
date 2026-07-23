@@ -21,7 +21,7 @@ void loop()
    if (v1 < 0) v1 = 0;
    f1 = (float)v1 * 0.001f;
    if (f2 > f1) f2 = f2 + ((f1 - f2) * 0.25f);
-   else f2 = f2 + ((f1 - f2) * 0.15f);
+   else f2 = f2 + ((f1 - f2) * 0.12f);
    v1 = (int)(f2 * 255.0f);
    analogWrite(9, v1);
    //Serial.println(v1);
